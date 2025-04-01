@@ -1,92 +1,172 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" style="overflow-x: hidden;">
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Винная ссылка</title>
+    <link rel="icon" href="ava.ico" type="image/x-icon">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Помещаем видео на задний план */
+        }
+        video {
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
 
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no" />
+        .button-container {
+         
+            box-sizing: border-box; /* Учитываем отступы в ширине контейнера */
+            position: absolute;
+            width: 25%;
+            height: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.2); /* Полупрозрачный фон */
+            backdrop-filter: blur(20px); /* Эффект мутного стекла */
+            border-radius: 35px; /* Закругленные углы */
+            padding: 4vh;
+            text-align: center;
+            display: flex; /* Используем flexbox */
+            justify-content: space-between; /* Распределяем кнопки равномерно */
+            flex-direction: column; 
+            align-items: center; /* Центрируем содержимое по горизонтали */
+        }
+        .button {
+            position: relative;
+            background-color: rgba(255, 255, 255, 0); /* Цвет кнопок */
+            border: 2px solid white; 
+            height: 15%;
+            max-height: 5vh;
+            width: 90%;
+            border-radius: 30px; /* Закругленные углы кнопок */
+            color: black; /* Цвет текста кнопок */
+            padding: 0px 0px; /* Отступы внутри кнопок */
+            margin: 0 10px; /* Отступы между кнопками */
+            cursor: pointer; /* Указатель при наведении */
+            font-size: 3vh; /* Размер шрифта */
+        }
+        .button_Tg{
+            background-color: #2190c8a6; /* Изменение цвета при наведении */
+            color: white;
+            box-shadow: 0 0 15px #2190c8a6,
+            inset 0 0 15px #2190c8a6;
+            border: 2px solid #2190c8a6; 
+        }
+        .button_Vk{
+            background-color: #0176fba2; /* Изменение цвета при наведении */
+            color: white;
+            box-shadow: 0 0 15px #0176fba2,
+            inset 0 0 15px #0176fba2;
+            border: 2px solid #0176fba2; 
+        }
+        .button_TikTok{
+            background-color: #ff7cb5a2; /* Изменение цвета при наведении */
+            color: white;
+            box-shadow: 0 0 15px #ff7cb5a2,
+            inset 0 0 15px #ff7cb5a2;
+            border: 2px solid #ff7cb5a2; 
+        }
 
-	<link rel="icon" type="image/x-icon" th:href="@{/img/ava.ico}">
-	<title>Vino_Card</title>
 
+        .profile-image {
+            width: 45%; /* Ширина изображения */
+      
+            border-radius: 50%; /* Круглая форма изображения */
+            margin-bottom: 20px; /* Отступ снизу для разделения с кнопками */
+        }
 
-	<script type="text/javascript" th:src="@{/libs/gsap/gsap.min.js}"></script>
-	<script type="text/javascript" th:src="@{/libs/gsap/ScrollTrigger.min.js}"></script>
-	<script type="text/javascript" th:src="@{/libs/gsap/ScrollSmoother.min.js}"></script>
+        .overlay-image {
+            position: absolute; /* Устанавливаем абсолютное позиционирование для изображения */
+            top: 55vh; /* Смещение вверх на 150 пикселей */
+            z-index: 1; /* Убедимся, что изображение будет выше других элементов */
+            max-width: calc(100% + 50px); /* Максимальная ширина с учетом смещения */
+            height: auto; /* Автоматическая высота для сохранения пропорций */
+            object-fit: cover; /* Заполнение области без искажений */
+            display: none;
+        }
 
-	<script type="text/javascript"  th:src="@{/js/app.js}" defer></script>
-	<script type="text/javascript"  th:src="@{/js/app_card.js}" defer></script>
+        @media (orientation: portrait) {
+        .button-container {
+            width: 70%;
+            }
+     
+    }
+    
+        @media (max-width: 600px) {
+            .button-container {
+                width: 90%; /* Устанавливаем ширину блока на мобильных устройствах */
+                box-sizing: border-box; /* Учитываем отступы в ширине блока */
+                text-align: center; /* Центрируем текст внутри блока */
+                margin-top: -20%; /* Корректируем позицию блока для центрирования на маленьких экранах */
+                transform: translate(-50%, -50%); /* Сохраняем центрирование блока */
+            }
+            
+        .overlay-image {
+            display:flex;
+        }
 
-	<link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
-	<link rel="stylesheet" type="text/css" th:href="@{/css/cards.css}">
+        }
+        @media (max-height: 700px) {
 
+        .button-container {
+            height: 60%;
+            }
+    }
+
+    </style>
 </head>
 <body>
 
-	<div class="wrapper">
-		<div class="content">
-
-			<header class="main-header">
-				<div class="layers" style="background-image: url(img/layer-base.png);">
-					<div class="layer__header">
-						<div class="layers__caption">Vino</div>
-						<div class="layers__title">2024</div>
-					</div>
-					<div data-lag="3" class="layer layers__base" style="background-image: url(img/layer-base.png);"></div>
-					<div class="layer layers__middle" style="background-image: url(img/layer-middle.png);"></div>
-					<div class="layer layers__front" style="background-image: url(img/layer-front.png);"></div>
-				</div>
-			</header>
+<div class="video-background" >
+    <video autoplay loop muted playsinline >
+        <source src="back01.mp4" type="video/mp4">
+        Ваш браузер не поддерживает видео.
+    </video>
+</div>
 
 
 
-			<article class="main-article" style="background-image: url(img/background.png);">
-				<div class="portfolio">
-					<div class="card_container">
-						<main class="gallery">
-
-							<div data-speed="1" class="gallery__left">
-
-								<img class="gallery__item" th:src="@{img/card1.jpg}" alt="Alt" >
-
-								<div class="text-block gallery__item">
-									<h2 class="text-block__h" style="margin-bottom: 0;">Приобрести<br>онлайн</h2>
-									<a href="https://ghostshelf.shop/merchant/68"><img th:src="@{img/favicon.png}" class="gallery-shop"></a>
-								</div>
-
-								<img id="current-image"  class="gallery__item" th:src="@{img/card2.jpg}" style=" margin-top: 10vh;" alt="Alt">
-
-							</div>
-
-							<div data-speed="1.1" class="gallery__right">
-
-								<div class="text-block gallery__item">
-									<h2 class="right-block text-block__h">Авторский<br>мерч</h2>
-									<p class="hide-block text-block__p">с большой<br>базой фандомов</p>
-								</div>
-
-								<img class="gallery__item" th:src="@{img/card3.jpg}" alt="Alt" >
-								<div class="text-block gallery__item" style="margin-top: 0vh;">
-									<div class="image-gallery" style="display: flex; justify-content: center;">
-										<a href="https://vk.com/vinlosyash"><img th:src="@{img/vk_logo.png}" alt="Изображение 1" class="social-image" style="max-width: 200px; height: auto;"></a>
-										<a href="https://www.tiktok.com/@_nastyavino_?_t=8pisnOQZnAG&_r=1"><img th:src="@{img/tt_logo.png}" alt="Изображение 2" class="social-image" style="max-width: 200px; height: auto;"></a>
-										<a href="https://t.me/pogrebvina"><img th:src="@{img/tg_logo.png}" alt="Изображение 3" class="social-image" style="max-width: 200px; height: auto;"></a>
-									</div>
-								</div>
-							</div>
-
-
-						</main>
-						<div class="center-container">
-							<a href="https://t.me/pogrebvina"><img th:src="@{img/tits.png}" alt="Изображение 1" class="social-image" style=" width: 75vh; height: auto; " ></a>
-						</div>
-					</div>
-
-
-				</div>
-			</article>
-		</div>
-	</div>
+<div class="button-container">
+    <img src="ava.jpg" alt="Картинка профиля" class="profile-image">
+    <button class="button button_Tg" id="telegramButton">Телеграм</button>
+    <button class="button button_Vk" id="vkButton" >Вконтакте</button>
+    <button class="button button_TikTok" id="tikTokButton">Тик ток</button>
+    <img src="image2.png" alt="Картинка" class="overlay-image">
+</div>
 
 </body>
+
+<script>
+
+    document.getElementById('telegramButton').onclick = function() {
+    window.open('https://t.me/pogrebvina', '_blank'); // Замените на вашу ссылку
+};
+
+document.getElementById('vkButton').onclick = function() {
+    window.open('https://vk.com/vinlosyash', '_blank'); // Замените на вашу ссылку
+};
+
+document.getElementById('tikTokButton').onclick = function() {
+    window.open('https://www.tiktok.com/@your_tiktok_link', '_blank'); // Замените на вашу ссылку
+};
+</script>
 </html>
